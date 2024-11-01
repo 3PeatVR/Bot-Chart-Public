@@ -210,10 +210,7 @@ app.get('/', function (req, res) {
 });
 
 
-app.get('/chokoron', function (req, res) {
-    res.send("Tu envoies le tweet là ?");
 
-});
 
 const job = new CronJob(
     "*/4 * * * *", // cronTime
