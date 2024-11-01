@@ -3,7 +3,7 @@
 Il s'agit d'un bot pour le réseau social X ex Twitter qui poste toutes les heures la chanson la plus populaire pour un pays aléatoire et une année aléatoire, le post contient aussi le lien YouTube qui mène vers la chanson.
 Ce repo contient la version publique du bot, i.e. les clées API utilisées dans le fichier .env sont cachées. 
 ### Lien du compte 
-[Voici le lien du compte]{https://x.com/Top1Chart_Bot}
+[Voici le lien du compte](https://x.com/Top1Chart_Bot)
 ***
 ## Technologies utilisées
 Le bot est codé entièrement en JavaScript, et est conteneurisé dans un container Docker. Le fichier index.js contient le code pour faire fonctionner le bot et le fichier package.json contient toutes les dépendances pour faire fonctionner le projet.
