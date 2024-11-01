@@ -1,5 +1,4 @@
 # Top Chart Bot (Version Publique)
-***
 ## Description du projet
 ***
 Il s'agit d'un bot pour le réseau social X ex Twitter qui poste toutes les heures la chanson la plus populaire pour un pays aléatoire et une année aléatoire, le post contient aussi le lien YouTube qui mène vers la chanson.
