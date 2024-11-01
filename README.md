@@ -8,6 +8,13 @@ Le bot est codé entièrement en JavaScript, et est conteneurisé dans un contai
 Le Dockerfile est écrit de telle sorte pour déployer le bot sur une machine virtuelle gratuite de [Render](https://render.com/) . Le bot utilise les API de X et de Google (pour le lien YouTube), il récupère la donnée à poster sur https://www.thisdayinmusic.com/birthday-no1/ (USA 🇺🇸, UK 🇬🇧, Allemagne 🇩🇪, Australie 🇦🇺, Canada 🇨🇦), https://www.chartsinfrance.net/charts/ (France 🇫🇷) et https://kma.kkbox.com (Japon 🇯🇵) en scrappant avec Puppeteer. Un cronjob permet l'exécution de la fonction principale toutes les heures (à chaque fois que le chiffre des minutes est égal à 0). 
 ***
 ## Déploiment du bot
+* Créer un repo GitHub à partir de celui-ci 
+* Mettre les clés API correspondantes dans le fichier .env
+* Créer un Web Service sur [Render](https://render.com/) et le lier à votre repo.
+* Rajouter dans "Advanced" les variables suivantes ```PUPPETEER_SKIP_CHROMIUM_DONWLOAD=true``` et ```PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable```
+* Créer le service et tout est prêt
+
+***
 
 
 
