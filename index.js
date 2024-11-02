@@ -42,7 +42,6 @@ const key_ytb = process.env.API_KEY_YTB;
 
 
 const main = async () => {
-    try{
     const date = new Date();
     const url = "https://www.thisdayinmusic.com/birthday-no1/";
     const month_url = (date.getMonth()+1).toString();
@@ -199,8 +198,8 @@ fetch(url_ytb).then(response => response.json()).then(data => {
 
 };
     };
+};
 
-}catch(e){main();}};
 
 
 
@@ -215,7 +214,8 @@ app.get('/', function (req, res) {
 const job = new CronJob(
     "*/4 * * * *", // cronTime
     function () {
-        main();
+        try{
+        main();}catch(e){main();} // trop d'appels récursifs font crasher l'API de X
     }, // onTick
     console.log("ça va tweeter"), // onComplete
     true, // start
