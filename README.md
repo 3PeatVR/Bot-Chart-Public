@@ -1,6 +1,6 @@
 # Top Chart Bot (Version Publique)
 ## Description du projet
-Il s'agit d'un bot pour le réseau social X ex Twitter qui poste toutes les heures la chanson la plus populaire pour un pays aléatoire et une année aléatoire, le post contient aussi le lien YouTube qui mène vers la chanson.
+Il s'agit d'un bot pour le réseau social X ex Twitter qui poste toutes les 2 heures (depuis le 9/11/2024 avant c'était toutes les heures) la chanson la plus populaire pour un pays aléatoire et une année aléatoire, le post contient aussi le lien YouTube qui mène vers la chanson.
 Ce repo contient la version publique du bot, i.e. les clées API utilisées dans le fichier .env sont cachées. 
 ### Lien du compte 
 [Voici le lien du compte](https://x.com/Top1Chart_Bot)

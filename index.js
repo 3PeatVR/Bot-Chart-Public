@@ -59,11 +59,9 @@ const main = async () => {
     const year = getRandomIntInclusive(1960, 2023).toString();
 
     const chiffre = getRandomIntInclusive(0, 6);
-    //console.log("Le nombre est " + chiffre.toString());
 
     const minute = date.getMinutes().toString();
 
-    if (minutes_possibles.includes(minute)) {
         if (chiffre != 5 && chiffre != 6) {
             const browser = await puppeteer.launch({
                 args: [
@@ -132,9 +130,8 @@ const main = async () => {
             } else {
                 await page.goto("https://www.chartsinfrance.net/charts/" + year_fr.slice(-2) + weekNumber + "/singles.php", { waitUntil: 'networkidle2', timeout: 0 });
             };
-            //await page.click("#cmp-main > button.jad_cmp_paywall_button.jad_cmp_paywall_button-cookies.jad_cmp_paywall_cookies.didomi-components-button.didomi-button.didomi-dismiss-button.didomi-components-button--color.didomi-button-highlight.highlight-button");
-            //await page.reload();
-            //await page.waitForSelector("#contenu > table > tbody > tr > td > div:nth-child(3) > div.b618 > div:nth-child(4) > div.c1_td1 > div.c1_td5", { waitUntil: 'load', timeout: 0 });
+            
+            
             const name = await page.evaluate(() => {
                 if (document.querySelector("#contenu > table > tbody > tr > td > div:nth-child(3) > div.b618 > div:nth-child(4) > div.c1_td1 > div.c1_td5 > font.noir13b > a") !== null) {
                     const cadre_1 = document.querySelector("#contenu > table > tbody > tr > td > div:nth-child(3) > div.b618 > div:nth-child(4) > div.c1_td1 > div.c1_td5 > font.noir13b");
@@ -197,7 +194,6 @@ fetch(url_ytb).then(response => response.json()).then(data => {
 
 
 };
-    };
 };
 
 
@@ -212,7 +208,7 @@ app.get('/', function (req, res) {
 
 
 const job = new CronJob(
-    "*/4 * * * *", // cronTime
+    "0 */2 * * *", // cronTime
     function () {
         try{
         main();}catch(e){main();} // trop d'appels récursifs font crasher l'API de X
