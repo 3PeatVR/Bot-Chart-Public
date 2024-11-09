@@ -7,7 +7,6 @@ import express from 'express';
 import { CronJob } from "cron";
 import { format, getISOWeek } from "date-fns";
 
-const minutes_possibles = ["0","1"];
 const drapeaux = { "United Kingdom": "🇬🇧", "United States": "🇺🇸", "Australia": "🇦🇺", "Germany": "🇩🇪", "Canada": "🇨🇦" };
 const emoji_fr = ["🥖", "🍷", "🧀", "🥐"];
 const emoji_jap = ["🗾", "🍜", "🍱", "🍢"];
