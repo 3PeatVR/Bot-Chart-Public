@@ -17,6 +17,11 @@
         "puppeteer": "22.6.4",
         "twitter-api-v2": "1.16.1",
         "cron": "3.1.7",
-        "date-fns": "3.6.0"
-    }
+        "date-fns": "3.6.0",
+        "@atproto/api": "0.13.18"
+    },
+    "devDependencies": {
+    "@types/node": "^22.9.1",
+    "typescript": "^5.6.3"
+  }
 }
