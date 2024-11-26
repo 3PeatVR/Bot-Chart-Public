@@ -59,7 +59,7 @@ const main = async () => {
 
     const chiffre = getRandomIntInclusive(0, 6);
 
-    const minute = date.getMinutes().toString();
+    
 
         if (chiffre != 5 && chiffre != 6) {
             const browser = await puppeteer.launch({
