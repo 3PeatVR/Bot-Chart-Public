@@ -1,8 +1,8 @@
 {
     "type": "module",
-    "name": "totally-legit-web-scrapper",
+    "name": "bot_chart",
     "version": "1.0.0",
-    "description": "test",
+    "description": "Just a cool chill Bot Chart",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
