@@ -183,7 +183,7 @@ fetch(url_ytb).then(response => response.json()).then(data => {
     const chifrre_emoji = getRandomIntInclusive(0, 3);
     twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`);
     console.log("envoyer tweet");
-    agent.post({'test':`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`});
+    agent.post({'text':`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`});
     console.log("envoyer papillon");
 }).catch(error => alert('Error : ' + error));
 
