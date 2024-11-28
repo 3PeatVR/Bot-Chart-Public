@@ -202,7 +202,7 @@ app.get('/', function (req, res) {
 
 
 const job = new CronJob(
-    "0 */2 * * *", // Le refaire
+    "0 */2 * * *", // S'active toutes les 2h
     function () {
         try{
         main();}catch(e){main();} //Les appels récursifs font crasher l'API de X
