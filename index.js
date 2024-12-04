@@ -8,6 +8,7 @@ import { CronJob } from "cron";
 import { format, getISOWeek } from "date-fns";
 import bsky from "@atproto/api";
 
+
 const { BskyAgent } = bsky;
 
 
@@ -75,6 +76,7 @@ const main = async () => {
         ],
         executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath(),
     });
+    const encoder = new TextEncoder();
 
     
 
@@ -104,18 +106,65 @@ const main = async () => {
             const url_ytb = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${names[chiffre]['song'] + " " + names[chiffre]['name']}&type=video&key=${key_ytb}`;
             fetch(url_ytb).then(response => response.json()).then(data => {
                 const id = data.items[0].id.videoId;
+                const chiffre_tag = getRandomIntInclusive(0,2);
                 if (names[chiffre]['country'] == "United Kingdom" || names[chiffre]['country'] == "United States") {
-                    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`);
+                    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`);
                     console.log("envoyer tweet");
-                    agent.post({'text':`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`});
+                    agent.post({
+                        'text':`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`,
+                        facets: [{
+                            index: {
+                                byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . `).length,
+                                byteEnd: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`).length
+                            },
+                            features: [{
+                                $type: 'app.bsky.richtext.facet#link',
+                                uri: `https://www.youtube.com/watch?v=${id}`
+                            }]
+                        },
+                        {
+                            index: {
+                                byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} `).length,
+                                byteEnd: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]}`).length 
+                            },
+                            features: [{
+                                $type: 'app.bsky.richtext.facet#tag',
+                                tag: `${hashtags[chiffre_tag]}`
+                            }]
+                        }
+                    ]
+                    });
                     console.log("envoyer papillon");
                 } else {
-                    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year}, the most popular song in ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`);
+                    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year}, the most popular song in ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`);
                     console.log("envoyer tweet")
-                    agent.post({'text':`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`});
+                    agent.post({
+                                'text':`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`,
+                                facets: [{
+                                    index: {
+                                        byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . `).length ,
+                                        byteEnd:  encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`).length 
+                                    },
+                                    features: [{
+                                        $type: 'app.bsky.richtext.facet#link',
+                                        uri : `https://www.youtube.com/watch?v=${id}`
+                                    }]
+                                },
+                                {
+                                    index:{
+                                        byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} `).length ,
+                                        byteEnd: encoder.encode(`🕰️ The ${day} of ${month} of ${year}, the most popular song in the ${names[chiffre]['country']} ${drapeaux[names[chiffre]['country']]} was '${names[chiffre]['song']}' by ${names[chiffre]['name']} #${hashtags[chiffre_tag]}`).length 
+                                    },
+                                    features: [{
+                                        $type: 'app.bsky.richtext.facet#tag',
+                                        tag: `${hashtags[chiffre_tag]}`
+                                    }]
+                                }
+                            ]
+                });
                     console.log("envoyer papillon");
                 }
-            }).catch(error => alert('Error : ' + error));
+            });
 
 
         }; 
@@ -156,12 +205,35 @@ const main = async () => {
             const url_ytb = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${name['musique'] + " " + name['nom']}&type=video&key=${key_ytb}`;
             fetch(url_ytb).then(response => response.json()).then(data => {
                 const id = data.items[0].id.videoId;
+                const chiffre_tag = getRandomIntInclusive(0,2);
                 const chifrre_emoji = getRandomIntInclusive(0, 3);
-                twitterClient.v2.tweet(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[getRandomIntInclusive(0,2)]}. https://www.youtube.com/watch?v=${id}`);
+                twitterClient.v2.tweet(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[chiffre_tag]}. https://www.youtube.com/watch?v=${id}`);
                 console.log("envoyer tweet");
-                agent.post({'text':`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[getRandomIntInclusive(0,2)]}. https://www.youtube.com/watch?v=${id}`});
+                agent.post({
+                'text':`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[chiffre_tag]}. https://www.youtube.com/watch?v=${id}`,
+                facets: [{
+                    index: {
+                        byteStart : encoder.encode(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[chiffre_tag]}. `).length ,
+                        byteEnd: (encoder.encode(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[chiffre_tag]}. https://www.youtube.com/watch?v=${id}`).length)
+                    },
+                    features: [{
+                        $type: 'app.bsky.richtext.facet#link',
+                        uri: `https://www.youtube.com/watch?v=${id}`
+                    }]
+                },
+            {
+                index:{
+                    byteStart: encoder.encode(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} `).length ,
+                    byteEnd: encoder.encode(`🕰️ The ${day} ${month} of ${year_fr} (week ${weekNumber}), the most popular song in France 🇫🇷  ${emoji_fr[chifrre_emoji % 4]} ${emoji_fr[(chifrre_emoji + 1) % 4]} ${emoji_fr[(chifrre_emoji + 2) % 4]} was ${name['musique']} by ${name['nom']} #${hashtags[chiffre_tag]}`).length       
+                },
+                features: [{
+                    $type: 'app.bsky.richtext.facet#tag',
+                    tag: `${hashtags[chiffre_tag]}`
+                }]
+            }]
+                });
                 console.log("envoyer papillon");        
-            }).catch(error => alert('Error : ' + error));
+            });
 }; if (chiffre == 6) {
     const year_jap = getRandomIntInclusive(2014, 2023).toString(); 
     const page = await browser.newPage();
@@ -181,11 +253,36 @@ const url_ytb = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&m
 fetch(url_ytb).then(response => response.json()).then(data => {
     const id = data.items[0].id.videoId;
     const chifrre_emoji = getRandomIntInclusive(0, 3);
-    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`);
+    const chiffre_tag = getRandomIntInclusive(0,2);
+    twitterClient.v2.tweet(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`);
     console.log("envoyer tweet");
-    agent.post({'text':`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[getRandomIntInclusive(0,2)]} . https://www.youtube.com/watch?v=${id}`});
+    agent.post({
+    'text':`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`,
+    facets: [
+        {
+            index: {
+                byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[chiffre_tag]} . `).length,
+                byteEnd: (encoder.encode(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[chiffre_tag]} . https://www.youtube.com/watch?v=${id}`).length )
+            },
+            features:[{
+                $type: 'app.bsky.richtext.facet#link',
+                uri: `https://www.youtube.com/watch?v=${id}`
+            }]
+        },
+        {
+            index: {
+                byteStart: encoder.encode(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} `).length  ,
+                byteEnd: encoder.encode(`🕰️ The ${day} of ${month} of ${year_jap}, the most popular song in Japan 🇯🇵 ${emoji_jap[chifrre_emoji % 4]} ${emoji_jap[(chifrre_emoji + 1) % 4]} ${emoji_jap[(chifrre_emoji + 2) % 4]} was '${cadre['musique']}' by ${cadre['artiste']} #${hashtags[chiffre_tag]}`).length 
+            },
+            features: [{
+                $type: 'app.bsky.richtext.facet#tag',
+                tag: `${hashtags[chiffre_tag]}`
+            }]
+        }
+    ]
+    });
     console.log("envoyer papillon");
-}).catch(error => alert('Error : ' + error));
+});
 
 
 
@@ -202,7 +299,7 @@ app.get('/', function (req, res) {
 
 
 const job = new CronJob(
-    "0 */2 * * *", // S'active toutes les 2h
+    "0 */2 * * *", // Toutes les 2 heures
     function () {
         try{
         main();}catch(e){main();} //Les appels récursifs font crasher l'API de X
