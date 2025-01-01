@@ -63,7 +63,7 @@ const main = async () => {
         const maxFloored = Math.floor(max);
         return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
     }
-    const year = getRandomIntInclusive(1960, 2023).toString();
+    const year = getRandomIntInclusive(1960, 2024).toString();
 
     const chiffre = getRandomIntInclusive(0, 6);
     const browser = await puppeteer.launch({
@@ -235,7 +235,7 @@ const main = async () => {
                 console.log("envoyer papillon");        
             });
 }; if (chiffre == 6) {
-    const year_jap = getRandomIntInclusive(2014, 2023).toString(); 
+    const year_jap = getRandomIntInclusive(2014, 2024).toString(); 
     const page = await browser.newPage();
     await page.goto(`https://kma.kkbox.com/charts/daily/song?cate=308&date=${year_jap}-${month_url}-${day}&lang=en&terr=sg`,{
     waitUntil: 'networkidle0', timeout: 0 
